@@ -41,6 +41,11 @@ function Footer() {
         <li><a href="#" className="hover:underline">Spotify Free</a></li>
       </ul>
     </div>
+    <div>
+      <img src="https://w0.peakpx.com/wallpaper/601/350/HD-wallpaper-spotify-black-white.jpg" alt='app-logo' className='w-14 h-14 object-cover rounded-full cursor-pointer'/>
+      <h1 className='font-bold text-white mb-3'>SPOTIFY</h1>
+      <p className='text-white'>Listen What you want</p>
+    </div>
   </div>
   <hr className="border-gray-800 mt-10" />
 </footer>
