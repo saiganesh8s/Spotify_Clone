@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ClipLoader from "react-spinners/ClipLoader";
 
 
 const Playlist = ({ searchInput }) => {
   const [playlist, setPlaylist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-
-const filteredData = playlist.filter((eachItem) =>
-  (eachItem?.name || "").toLowerCase().includes(searchInput?.toLowerCase() || "")
-);
+  const [hasError, setHasError] = useState(false);
+  const filteredData = playlist.filter((eachItem) =>
+    (eachItem?.name || "").toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   useEffect(() => {
     async function fetchPlaylist() {
       try {
         const response = await fetch('https://apis2.ccbp.in/spotify-clone/featured-playlists');
+        if (!response.ok) {
+          throw new Error(`Playlist request failed with status ${response.status}`);
+        }
         const jsonData = await response.json();
-        setPlaylist(jsonData.playlists.items);
-        setIsLoading(false);
+        setPlaylist(jsonData.playlists?.items || []);
       } catch (error) {
         console.error('Error fetching playlist:', error);
+        setHasError(true);
+      } finally {
         setIsLoading(false);
       }
     }
@@ -28,60 +30,68 @@ const filteredData = playlist.filter((eachItem) =>
     fetchPlaylist();
   }, []);
 
-  return (
-    <div className='bg-[#1F1F1F] w-full rounded-lg shadow-2xl p-4 sm:p-6 md:p-8 lg:p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mr-1'>
-  {isLoading ? (
-    <h1 className='text-2xl sm:text-3xl md:text-5xl text-white font-serif col-span-full text-center'>
-      Loading...
-    </h1>
-  ) : filteredData.length > 0 ? (
-    filteredData.map((eachItem) => (
-      <div
-        key={eachItem.id}
-        className='relative group shadow-2xl hover:scale-105 bg-black p-4 rounded-xl transition-transform duration-300 cursor-pointer overflow-hidden h-fit'
-      >
-        <img
-          src={eachItem.images[0].url}
-          alt='playlist'
-          className='w-full h-44 sm:h-48 object-cover rounded-lg'
-        />
-        <h1 className='text-white font-bold mt-3 text-base sm:text-lg truncate'>{eachItem.name}</h1>
-        <p className='text-gray-500 text-xs mt-1'>
-          By: <span className='text-gray-300'>{eachItem.owner.display_name}</span>
-        </p>
-        <p className='text-gray-500 text-xs mt-1'>🎵 {eachItem.tracks.total} tracks</p>
-
-        <Link to={`/playlist/${eachItem.id}`}>
-          <div className='absolute bottom-10 right-3 bg-white p-3 rounded-full opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 ease-in-out'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='black'
-              viewBox='0 0 24 24'
-              strokeWidth='1.5'
-              stroke='currentColor'
-              className='w-5 h-5'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M5.25 5.653v12.694a.75.75 0 0 0 1.142.639l10.569-6.347a.75.75 0 0 0 0-1.278L6.392 5.014a.75.75 0 0 0-1.142.639Z'
-              />
-            </svg>
-          </div>
-        </Link>
+  if (isLoading) {
+    return (
+      <div className="flex min-h-64 flex-col items-center justify-center gap-4 text-gray-300" role="status">
+        <span className="h-9 w-9 animate-spin rounded-full border-4 border-[#1ed760] border-t-transparent" />
+        <p>Loading playlists…</p>
       </div>
-    ))
-  ) : (
-    //loader spiner //npm react-spinners
-     <div className="flex justify-center items-center col-span-full h-135 mb-3">
-        <h1 className="text-white font-serif text-center font-bold text-2xl">Loading.....</h1>
-    <div className="w-12 h-12 border-6 border-green-500 border-t-transparent rounded-full animate-spin"></div>
-  </div>
-  )}
-</div>
+    );
+  }
 
+  if (hasError) {
+    return (
+      <p className="rounded-lg bg-[#242424] p-6 text-center text-gray-300" role="alert">
+        Playlists couldn’t be loaded right now. Please try again later.
+      </p>
+    );
+  }
+
+  if (filteredData.length === 0) {
+    return (
+      <p className="rounded-lg bg-[#242424] p-6 text-center text-gray-300">
+        {searchInput ? `No playlists found for “${searchInput}”.` : 'No playlists are available right now.'}
+      </p>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      {filteredData.map((eachItem) => (
+        <article
+          key={eachItem.id}
+          className="group relative min-w-0 rounded-xl bg-[#181818] p-3 transition duration-200 hover:bg-[#282828] focus-within:bg-[#282828]"
+        >
+          <Link
+            to={`/playlist/${eachItem.id}`}
+            aria-label={`Open ${eachItem.name}`}
+            className="absolute inset-0 z-10 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1ed760]"
+          />
+          <div className="relative">
+            <img
+              src={eachItem.images?.[0]?.url}
+              alt=""
+              loading="lazy"
+              className="aspect-square w-full rounded-lg bg-[#2a2a2a] object-cover shadow-lg"
+            />
+            <span className="absolute bottom-2 right-2 flex h-12 w-12 translate-y-2 items-center justify-center rounded-full bg-[#1ed760] text-black opacity-0 shadow-xl transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="ml-0.5 h-5 w-5">
+                <path d="M7 5.5v13l11-6.5-11-6.5Z" />
+              </svg>
+            </span>
+          </div>
+          <h2 className="mt-3 truncate font-bold text-white">{eachItem.name}</h2>
+          <p className="mt-1 truncate text-sm text-gray-400">
+            By {eachItem.owner?.display_name || 'Spotify'}
+          </p>
+          <p className="mt-2 text-xs text-gray-400">
+            <span aria-hidden="true" className="mr-1 text-[#1ed760]">♫</span>
+            {eachItem.tracks?.total ?? 0} tracks
+          </p>
+        </article>
+      ))}
+    </div>
   );
 
 };
-//flex justify-center items-center col-span-full min-h-200
 export default Playlist;

@@ -6,37 +6,49 @@ import { Link } from 'react-router-dom';
 
 function Siderbar() {
   return (
-    <div>
-       <div className='text-white sticky bg-[#1F1F1F] p-6 shadow-2xl rounded-lg ml-2 font-sans h-fit md:top-20 w-100 '>
-          <div className='flex flex-row justify-between'>
-            <h1 className="font-bold text-2xl">Your Library</h1>
-          </div>
-          <div className="bg-black rounded-lg p-4 flex flex-col gap-1 m-2 md:top-20">
-            <h1 className="font-bold text-sm m-1">Browse Your Fav Genres</h1>
-            <p className="font-semibold text-sm m-2">It's easy, we'll help you.</p>
-            <Link to="/BrowseGenres">
-              <button className="bg-white text-black text-sm font-bold p-1 rounded-full w-[50%] hover:text-white transition hover:bg-[#1DB954] cursor-pointer hover:scale-105">Browse Genres</button>
-            </Link>
-          </div>
-          <div className="bg-black rounded-lg p-4 flex flex-col gap-1 m-2 md:top-20">
-            <h1 className="font-bold text-sm m-1">Lets Find Some Podcast to Listen</h1>
-            <p className="font-semibold text-sm m-2">We'll keep you updated on new Releases.<br />Listen Releases</p>
-            <Link to="/newreleases">
-              <button className="bg-white text-black text-sm font-bold p-1 m-1 rounded-full w-[50%] hover:text-white transition hover:bg-[#1DB954] cursor-pointer hover:scale-105">New Releases</button>
-            </Link>
-          </div>
-          <div className="flex flex-col gap-6 m-6">
-            <Link to="/LikedSongsPage">
-              <button className="bg-white text-black rounded-full p-1 font-bold p-2  hover:bg-green-500 cursor-pointer w-full"> 💕Liked Songs</button>
-            </Link>
-            <Link to="/YourPlaylists">
-              <button className="bg-white text-black rounded-full p-1 font-bold p-2  hover:bg-green-500 cursor-pointer w-full"> 🎶Add PlayLists</button>
-            </Link>
-          <button className='text-lg cursor-not-allowed bg-white text-black rounded-full font-bold p-2 '> English</button>
-          </div>
+    <aside className="h-fit rounded-xl bg-[#181818] p-5 text-white shadow-lg lg:sticky lg:top-20">
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="text-lg font-bold">Your Library</h2>
+        <span aria-hidden="true" className="text-2xl leading-none text-gray-400">+</span>
+      </div>
+      <div className="space-y-3">
+        <div className="rounded-lg bg-[#242424] p-4">
+          <h3 className="font-semibold">Explore by genre</h3>
+          <p className="mt-1 text-sm text-gray-300">Find something new to love.</p>
+          <Link
+            to="/BrowseGenres"
+            className="mt-4 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:scale-105 hover:bg-[#1ed760]"
+          >
+            Browse genres
+          </Link>
         </div>
-    </div>
-    
+        <div className="rounded-lg bg-[#242424] p-4">
+          <h3 className="font-semibold">Fresh music, every week</h3>
+          <p className="mt-1 text-sm text-gray-300">Catch up on the latest releases.</p>
+          <Link
+            to="/newreleases"
+            className="mt-4 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:scale-105 hover:bg-[#1ed760]"
+          >
+            New releases
+          </Link>
+        </div>
+      </div>
+      <div className="mt-5 grid gap-2">
+        <Link
+          to="/LikedSongsPage"
+          className="rounded-full bg-[#2a2a2a] px-4 py-3 text-sm font-semibold transition hover:bg-[#3a3a3a]"
+        >
+          💕 Liked songs
+        </Link>
+        <Link
+          to="/YourPlaylists"
+          className="rounded-full bg-[#2a2a2a] px-4 py-3 text-sm font-semibold transition hover:bg-[#3a3a3a]"
+        >
+          🎶 Your playlists
+        </Link>
+      </div>
+      <p className="mt-5 text-xs text-gray-500">Music for every moment.</p>
+    </aside>
   )
 }
 export default Siderbar

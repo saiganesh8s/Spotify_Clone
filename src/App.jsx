@@ -1,6 +1,5 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Login from './components/LoginPage/login'
 import Home from './components/Home/home.jsx' 
 import Preminum from './components/Preminum/preminum.jsx'
 import Footer from './components/Footer/footer.jsx'
@@ -22,7 +21,7 @@ function App() {
       <LikedSongsProvider>
         <CustomPlaylistProvider>
           <Routes>
-            <Route path='/' element={<Login/>}/>
+            <Route path='/' element={<Home/>}/>
             <Route path='/home' element={<Home/>}/>
             <Route path='/preminum' element={<Preminum/>}/> 
             <Route path ='/footer' element={<Footer/>}/>

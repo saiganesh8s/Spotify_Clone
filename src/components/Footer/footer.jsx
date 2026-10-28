@@ -42,9 +42,13 @@ function Footer() {
       </ul>
     </div>
     <div>
-      <img src="https://w0.peakpx.com/wallpaper/601/350/HD-wallpaper-spotify-black-white.jpg" alt='app-logo' className='w-14 h-14 object-cover rounded-full cursor-pointer'/>
+      <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-[#1ed760] text-black" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+          <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.59 14.42a.75.75 0 0 1-1.03.25 8.53 8.53 0 0 0-7.12-.85.75.75 0 1 1-.44-1.43 10.02 10.02 0 0 1 8.34 1 .75.75 0 0 1 .25 1.03Zm1.2-2.67a.9.9 0 0 1-1.23.3 10.38 10.38 0 0 0-8.67-1.04.9.9 0 1 1-.53-1.72 12.18 12.18 0 0 1 10.13 1.22.9.9 0 0 1 .3 1.24Zm.1-2.78a.98.98 0 0 1-1.35.33 12.68 12.68 0 0 0-10.59-1.27.98.98 0 1 1-.58-1.87 14.63 14.63 0 0 1 12.2 1.47.98.98 0 0 1 .33 1.34Z" />
+        </svg>
+      </span>
       <h1 className='font-bold text-white mb-3'>SPOTIFY</h1>
-      <p className='text-white'>Listen What you want</p>
+      <p className='text-gray-400'>Listen to what you love.</p>
     </div>
   </div>
   <hr className="border-gray-800 mt-10" />
